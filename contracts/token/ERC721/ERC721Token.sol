@@ -1,4 +1,4 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.21;
 
 import "./ERC721.sol";
 import "../../math/SafeMath.sol";
@@ -99,7 +99,7 @@ contract ERC721Token is ERC721 {
     require(_to != owner);
     if (approvedFor(_tokenId) != 0 || _to != 0) {
       tokenApprovals[_tokenId] = _to;
-      Approval(owner, _to, _tokenId);
+      emit Approval(owner, _to, _tokenId);
     }
   }
 
@@ -120,7 +120,7 @@ contract ERC721Token is ERC721 {
   function _mint(address _to, uint256 _tokenId) internal {
     require(_to != address(0));
     addToken(_to, _tokenId);
-    Transfer(0x0, _to, _tokenId);
+    emit Transfer(0x0, _to, _tokenId);
   }
 
   /**
@@ -132,7 +132,7 @@ contract ERC721Token is ERC721 {
       clearApproval(msg.sender, _tokenId);
     }
     removeToken(msg.sender, _tokenId);
-    Transfer(msg.sender, 0x0, _tokenId);
+    emit Transfer(msg.sender, 0x0, _tokenId);
   }
 
   /**
@@ -160,7 +160,7 @@ contract ERC721Token is ERC721 {
     clearApproval(_from, _tokenId);
     removeToken(_from, _tokenId);
     addToken(_to, _tokenId);
-    Transfer(_from, _to, _tokenId);
+    emit Transfer(_from, _to, _tokenId);
   }
 
   /**
@@ -170,7 +170,7 @@ contract ERC721Token is ERC721 {
   function clearApproval(address _owner, uint256 _tokenId) private {
     require(ownerOf(_tokenId) == _owner);
     tokenApprovals[_tokenId] = 0;
-    Approval(_owner, 0, _tokenId);
+    emit Approval(_owner, 0, _tokenId);
   }
 
   /**

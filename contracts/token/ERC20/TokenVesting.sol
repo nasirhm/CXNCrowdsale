@@ -1,4 +1,4 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.21;
 
 import "./ERC20Basic.sol";
 import "./SafeERC20.sol";
@@ -64,7 +64,7 @@ contract TokenVesting is Ownable {
 
     token.safeTransfer(beneficiary, unreleased);
 
-    Released(unreleased);
+    emit Released(unreleased);
   }
 
   /**
@@ -85,7 +85,7 @@ contract TokenVesting is Ownable {
 
     token.safeTransfer(owner, refund);
 
-    Revoked();
+    emit Revoked();
   }
 
   /**
