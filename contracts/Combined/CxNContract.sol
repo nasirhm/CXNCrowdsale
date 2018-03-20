@@ -453,6 +453,32 @@ contract RefundableCrowdsale is FinalizableCrowdsale {
 
 }
 
+contract PostDeliveryCrowdsale is TimedCrowdsale {
+  using SafeMath for uint256;
+
+  mapping(address => uint256) public balances;
+
+  /**
+   * @dev Overrides parent by storing balances instead of issuing tokens right away.
+   * @param _beneficiary Token purchaser
+   * @param _tokenAmount Amount of tokens purchased
+   */
+  function _processPurchase(address _beneficiary, uint256 _tokenAmount) internal {
+    balances[_beneficiary] = balances[_beneficiary].add(_tokenAmount);
+  }
+
+  /**
+   * @dev Withdraw tokens only after crowdsale ends.
+   */
+  function withdrawTokens() public {
+    require(hasClosed());
+    uint256 amount = balances[msg.sender];
+    require(amount > 0);
+    balances[msg.sender] = 0;
+    _deliverTokens(msg.sender, amount);
+  }
+}
+
 contract CxNtoken {
     function totalSupply() public view returns (uint256);
     function balanceOf(address who) public view returns (uint256);
@@ -460,7 +486,7 @@ contract CxNtoken {
     event Transfer(address indexed from, address indexed to, uint256 value);
 }
 
-contract CXNcontract is CappedCrowdsale, RefundableCrowdsale {
+contract CXNcontract is CappedCrowdsale, RefundableCrowdsale, PostDeliveryCrowdsale {
     
     // Only for testNet:
     uint privSale1start = now;
