@@ -1,1 +1,0 @@
-var Crowdsale = artifacts.require("./CXNcontract.sol");
