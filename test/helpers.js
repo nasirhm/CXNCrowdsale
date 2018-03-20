@@ -1,8 +1,3 @@
-exports.deployCXNContract = () => {
-    return CXNcontract.new({gas: 1000000})
-  }
-  
-  
   exports.getBalance = (address) => {
     return new Promise((fullfil, reject) => {
       web3.eth.getBalance(address, (err, balance) => {
