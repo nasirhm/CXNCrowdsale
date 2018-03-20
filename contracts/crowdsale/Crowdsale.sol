@@ -1,4 +1,4 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.21;
 
 import "../token/ERC20/ERC20.sol";
 import "../math/SafeMath.sol";
@@ -26,7 +26,7 @@ contract Crowdsale {
   address public wallet;
 
   // How many token units a buyer gets per wei
-  uint256 public rate;
+  //uint256 public rate;
 
   // Amount of wei raised
   uint256 public weiRaised;
@@ -45,12 +45,10 @@ contract Crowdsale {
    * @param _wallet Address where collected funds will be forwarded to
    * @param _token Address of the token being sold
    */
-  function Crowdsale(uint256 _rate, address _wallet, ERC20 _token) public {
-    require(_rate > 0);
+  function Crowdsale(address _wallet, ERC20 _token) public {
     require(_wallet != address(0));
     require(_token != address(0));
 
-    rate = _rate;
     wallet = _wallet;
     token = _token;
   }
@@ -82,7 +80,7 @@ contract Crowdsale {
     weiRaised = weiRaised.add(weiAmount);
 
     _processPurchase(_beneficiary, tokens);
-    TokenPurchase(msg.sender, _beneficiary, weiAmount, tokens);
+    emit TokenPurchase(msg.sender, _beneficiary, weiAmount, tokens);
 
     _updatePurchasingState(_beneficiary, weiAmount);
 
@@ -146,7 +144,7 @@ contract Crowdsale {
    * @return Number of tokens that can be purchased with the specified _weiAmount
    */
   function _getTokenAmount(uint256 _weiAmount) internal view returns (uint256) {
-    return _weiAmount.mul(rate);
+    // must override
   }
 
   /**

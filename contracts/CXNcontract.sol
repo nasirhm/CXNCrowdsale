@@ -1,41 +1,10 @@
-pragma solidity ^0.4.19;
+pragma solidity ^0.4.21;
 
-
-contract Ownable {
-    address public owner;
-
-
-    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
-
-
-    /**
-     * @dev The Ownable constructor sets the original `owner` of the contract to the sender
-     * account.
-     */
-    function Ownable() public {
-        owner = msg.sender;
-    }
-
-    /**
-     * @dev Throws if called by any account other than the owner.
-     */
-    modifier onlyOwner() {
-        require(msg.sender == owner);
-        _;
-    }
-
-    /**
-     * @dev Allows the current owner to transfer control of the contract to a newOwner.
-     * @param newOwner The address to transfer ownership to.
-     */
-    function transferOwnership(address newOwner) public onlyOwner {
-        require(newOwner != address(0));
-        emit OwnershipTransferred(owner, newOwner);
-        owner = newOwner;
-    }
-
-}
-
+import "./crowdsale/distribution/FinalizableCrowdsale.sol";
+import "./crowdsale/validation/CappedCrowdsale.sol";
+import "./crowdsale/distribution/RefundableCrowdsale.sol";
+import "./crowdsale/emission/MintedCrowdsale.sol";
+import "./token/ERC20/StandardToken.sol";
 
 contract CxNtoken {
     function totalSupply() public view returns (uint256);
@@ -44,15 +13,13 @@ contract CxNtoken {
     event Transfer(address indexed from, address indexed to, uint256 value);
 }
 
-contract CXNcontract is Ownable{
-
-    CxNtoken token;
-
+contract CXNcontract is CappedCrowdsale, RefundableCrowdsale {
+    
     // Only for testNet:
     uint privSale1start = now;
 
     //    //  20 Mar 2018  07:00:00 PM CST
-    //    uint privSale1start = 1521594000;
+    //uint privSale1start = 1521594000;
 
     //  10 Apr 2018  11:59:00 PM CST
     uint privSale1end = 1523426400;
@@ -69,30 +36,42 @@ contract CXNcontract is Ownable{
     // 18 Jun 2018 11:59:00 PM CST
     uint saleEnd = 1526709600;
 
-
-    address public wallet = 0xc947aE55A26311FFA0Ea801c1ba8Edef1A603046;
-
-    function CXNcontract() public {
-        //
-        token = CxNtoken(0x7BD85e4Acf2752149d2a10c789F5762FEa49EFf1);
+    function CXNcontract(uint256 _openingTime, uint256 _closingTime, address _wallet, uint256 _cap, StandardToken _token, uint256 _goal) public 
+        Crowdsale(_wallet, _token)
+        CappedCrowdsale(_cap)
+        TimedCrowdsale(_openingTime, _closingTime)
+        RefundableCrowdsale(_goal) 
+    {
+        //As goal needs to be met for a successful crowdsale
+        //the value needs to less or equal than a cap which is limit for accepted funds
+        require(_goal <= _cap);
     }
 
-    function() public payable {
-        require(checkValue(msg.value));
-        wallet.transfer(msg.value);
+    function _preValidatePurchase(address _beneficiary, uint256 _weiAmount) internal {
+        assert(checkValue(_weiAmount));
+        super._preValidatePurchase(_beneficiary, _weiAmount);
+    }
+
+    function _getTokenAmount(uint256 _weiAmount) internal view returns (uint256) {
+        return getRate();
     }
 
     function checkValue(uint256 amount) internal view returns (bool){
-        if (now > privSale1start && now < privSale2end) return (amount >= 5 ether);
-        else if (now > saleStart && now < saleEnd) return (amount >= 0.1 ether);
+        if (now > privSale1start && now < privSale2end) 
+            return (amount >= 5 ether);
+        else if (now > saleStart && now < saleEnd) 
+            return (amount >= 0.1 ether);
         return false;
     }
 
-    function finishSale() public onlyOwner {
-        require(now > saleEnd);
-        require(token.balanceOf(this) >= 2800000 ether);
-
-        address Bountyhive = 0x38B08071db8Acf1446F87161fb55dE9416DC8A6d;
-        token.transfer(Bountyhive, 2800000 ether);
+    function getRate() public view returns (uint256) {
+        
+        if (now > privSale1start && now < privSale1end) 
+            return 14375; // Stage I
+        else if (now > privSale2start && now < privSale2end) 
+            return 13750; // Stage II
+        else if (now > saleStart && now < saleEnd) 
+            return 12500; // Public Sale
+        return 0;
     }
 }
