@@ -6,7 +6,7 @@
       })
     })
   };
-  
+
   
   exports.expectedExceptionPromise = (action, gasToUse) => {
     return new Promise((resolve, reject) => {

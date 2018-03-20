@@ -1,6 +1,6 @@
-var CXNcontract = artifacts.require("./CXNcontract.sol");
-var StandardToken = artifacts.require("./token/ERC20/StandardToken.sol")
+var CxNcontract = artifacts.require("./CxNcontract.sol");
+var CxNtoken = artifacts.require("./CxNtoken.sol");
 
 module.exports = function (deployer) {
-    
+    deployer.deploy(CxNtoken);
 }
