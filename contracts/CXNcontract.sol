@@ -4,6 +4,7 @@ import "./crowdsale/distribution/FinalizableCrowdsale.sol";
 import "./crowdsale/validation/CappedCrowdsale.sol";
 import "./crowdsale/distribution/RefundableCrowdsale.sol";
 import "./crowdsale/emission/MintedCrowdsale.sol";
+import "./crowdsale/distribution/PostDeliveryCrowdsale.sol";
 import "./token/ERC20/StandardToken.sol";
 
 contract CxNtoken {
@@ -13,7 +14,7 @@ contract CxNtoken {
     event Transfer(address indexed from, address indexed to, uint256 value);
 }
 
-contract CXNcontract is CappedCrowdsale, RefundableCrowdsale {
+contract CXNcontract is CappedCrowdsale, RefundableCrowdsale, PostDeliveryCrowdsale {
     
     // Only for testNet:
     uint privSale1start = now;
