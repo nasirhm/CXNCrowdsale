@@ -80,6 +80,6 @@ contract CxNcontract is CappedCrowdsale, RefundableCrowdsale, PostDeliveryCrowds
 
         token.transfer(partnerAddress, tokensForPartners);
 
-        token.transfer(wallet, token.balanceOf(this));
+        //token.transfer(wallet, token.balanceOf(this));
     }
 }
