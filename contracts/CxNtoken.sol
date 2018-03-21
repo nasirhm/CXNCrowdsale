@@ -190,7 +190,7 @@ contract CxNtoken is StandardToken {
     string public constant name = "SocialCxN";
     string public constant symbol = "CxN";
     uint8 public constant decimals = 18;
-    address public constant wallet = 0xc947aE55A26311FFA0Ea801c1ba8Edef1A603046;
+   // address public constant wallet = 0xc947aE55A26311FFA0Ea801c1ba8Edef1A603046;
 
     //  500000000 CXN(0.5Billion)
     uint256 public constant INITIAL_SUPPLY = 500000000 * (10 ** uint256(decimals));
@@ -198,8 +198,8 @@ contract CxNtoken is StandardToken {
 
     function CxNtoken() public {
         totalSupply_ = INITIAL_SUPPLY;
-        balances[wallet] = INITIAL_SUPPLY;
-        emit Transfer(0x0,wallet, INITIAL_SUPPLY);
+        balances[address(this)] = INITIAL_SUPPLY;
+        emit Transfer(0x0,address(this), INITIAL_SUPPLY);
     }
 
 }
