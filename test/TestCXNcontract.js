@@ -82,9 +82,9 @@ contract('CxNtoken', (accounts) => {
             assert.equal(owner, setOwner , "Owner must be set");
             
             let expectedRate = getRate()
-            console.log(expectedRate);
+
             let actualRate = await contract.getRate();
-            
+
             assert.equal(expectedRate, actualRate.toNumber() , "Should return 14375, the private sale rate");
             
             assert.equal(cap, (await contract.cap()).toNumber() , "Cap must be set");
@@ -119,8 +119,6 @@ contract('CxNtoken', (accounts) => {
 
             console.log(hasClosed());
             assert.equal(hasClosed(), (await contract.hasClosed()) , "Must reflect if open or closed");
-
-            
         });
 
         it("Check payment", async function () {
@@ -129,7 +127,7 @@ contract('CxNtoken', (accounts) => {
             let payTransaction = await contract.sendTransaction({ from: web3.eth.coinbase, value: valueToSend });
 
             let rate = getRate();
-            console.log("Rate is " + rate);
+
             let expectedTokens = rate * valueToSend;
 
             assert.equal(expectedTokens, (await contract.balances(web3.eth.coinbase)).toNumber(), "Balance is not correct")
