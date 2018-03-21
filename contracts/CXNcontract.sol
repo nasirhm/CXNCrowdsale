@@ -47,7 +47,7 @@ contract CXNcontract is CappedCrowdsale, RefundableCrowdsale, PostDeliveryCrowds
     }
 
     function _getTokenAmount(uint256 _weiAmount) internal view returns (uint256) {
-        return getRate();
+        return _weiAmount.mul(getRate());
     }
 
     function checkValue(uint256 amount) internal view returns (bool){
