@@ -49,11 +49,12 @@ contract('CxNtoken', (accounts) => {
             let setOwner = await contract.owner();
             assert.equal(owner, setOwner , "Owner must be set");
             
-            //let expectedRate = getRate()
+            let expectedRate = getRate()
+            let actualRate = await contract.getRate();
 
-            //assert.equal(14375, (await contract.getRate()).toString() , "Should return 14375, the private sale rate");
+            assert.equal(expectedRate, actualRate.toNumber() , "Should return 14375, the private sale rate");
 
-            let payTransaction = await contract.sendTransaction({ value: web3.toWei(5, "ether") });
+            //let payTransaction = await contract.sendTransaction({ value: web3.toWei(5, "ether") });
         });
 
         
