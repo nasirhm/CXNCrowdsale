@@ -78,7 +78,7 @@ contract('CxNtoken', (accounts) => {
             let expectedRate = getRate()
             let actualRate = await contract.getRate();
             
-            //assert.equal(expectedRate, actualRate.toNumber() , "Should return 14375, the private sale rate");
+            assert.equal(expectedRate, actualRate.toNumber() , "Should return 14375, the private sale rate");
             
             assert.equal(cap, (await contract.cap()).toNumber() , "Cap must be set");
 
@@ -118,9 +118,10 @@ contract('CxNtoken', (accounts) => {
 
         it("Check payment", async function () {
             let valueToSend = web3.toWei(5, "ether");
-            console.log(valueToSend);
-            //let payTransaction = await contract.sendTransaction({ value: valueToSend });
+            console.log("Min value is " + valueToSend);
+            let payTransaction = await contract.sendTransaction({ from: web3.eth.coinbase, value: valueToSend });
 
+            console.log(payTransaction.logs);
         });
     });
 
