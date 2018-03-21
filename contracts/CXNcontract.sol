@@ -6,7 +6,7 @@ import "./crowdsale/distribution/RefundableCrowdsale.sol";
 import "./crowdsale/distribution/PostDeliveryCrowdsale.sol";
 import "./token/ERC20/ERC20.sol";
 
-contract CXNcontract is CappedCrowdsale, RefundableCrowdsale, PostDeliveryCrowdsale {
+contract CxNcontract is CappedCrowdsale, RefundableCrowdsale, PostDeliveryCrowdsale {
     
     // Only for testNet:
     //uint privSale1start = now;
@@ -32,7 +32,7 @@ contract CXNcontract is CappedCrowdsale, RefundableCrowdsale, PostDeliveryCrowds
     // 18 Jun 2018 11:59:00 PM CST
     uint saleEnd = 1526709600;
 
-    function CXNcontract(uint256 _openingTime, uint256 _closingTime, address _wallet, uint256 _cap, ERC20 _token, uint256 _goal, address _partnerAddress) public payable
+    function CxNcontract(uint256 _openingTime, uint256 _closingTime, address _wallet, uint256 _cap, ERC20 _token, uint256 _goal, address _partnerAddress) public payable
         Crowdsale(_wallet, _token)
         CappedCrowdsale(_cap)
         TimedCrowdsale(_openingTime, _closingTime)
