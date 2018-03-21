@@ -55,6 +55,8 @@ contract('CxNtoken', (accounts) => {
         it("Check Finalize", async function(){
             assert.equal(true,(await contract.hasClosed()),"Should be true")
             console.log("contract has closed: " + (await contract.hasClosed()))
+            let balance = await contract.balances.call(web3.eth.coinbase);
+            console.log("Balance " + balance);
             let finalize = await contract.finalize();
         })
 
