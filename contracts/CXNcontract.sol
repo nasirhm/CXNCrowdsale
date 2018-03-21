@@ -71,7 +71,6 @@ contract CXNcontract is CappedCrowdsale, RefundableCrowdsale, PostDeliveryCrowds
 
     function finalization() internal {
         require(token.balanceOf(this) >= 2800000 ether);
-
         address Bountyhive = 0x38B08071db8Acf1446F87161fb55dE9416DC8A6d;
         token.transfer(Bountyhive, 2800000 ether);
     }

@@ -23,7 +23,6 @@ contract('CxNtoken', (accounts) => {
 
     describe("Setup", () => {
         let timeNow = (Date.now() / 1000).toFixed(0);
-        timeNow = 1546304461;
         console.log("Time now is : " + timeNow);
 
         let getRate = ()=> {
@@ -35,6 +34,8 @@ contract('CxNtoken', (accounts) => {
                   return 12500; // Public Sale
               return 0;
           };
+
+          console.log("getrate " + getRate())
 
         let hasClosed = () => {
             let timeNow = (Date.now() / 1000).toFixed(0);
@@ -61,6 +62,7 @@ contract('CxNtoken', (accounts) => {
 
             console.log('Token Address is : ' + token.address);          
 
+            saleEnd = privSale1start + 1;
             contract = await CxNcontract.new(privSale1start, saleEnd, 
                 owner, cap, 
                 token.address, goal);
@@ -68,6 +70,16 @@ contract('CxNtoken', (accounts) => {
             console.log('Contract Address is : ' + contract.address);
             
         });
+
+
+        it("Check Finalize", async function(){
+            assert.equal(true,(await contract.hasClosed()),"Should be true")
+            console.log("contract has closed: " + (await contract.hasClosed()))
+            let finalize = await contract.finalize({gas:500000});
+            console.log(finalize);
+        })
+
+        
 
 
     });

@@ -538,7 +538,6 @@ contract CXNcontract is CappedCrowdsale, RefundableCrowdsale, PostDeliveryCrowds
     }
 
     function getRate() public view returns (uint256) {
-        
         if (now > privSale1start && now < privSale1end) 
             return 14375; // Stage I
         else if (now > privSale2start && now < privSale2end) 
@@ -546,5 +545,11 @@ contract CXNcontract is CappedCrowdsale, RefundableCrowdsale, PostDeliveryCrowds
         else if (now > saleStart && now < saleEnd) 
             return 12500; // Public Sale
         return 0;
+    }
+
+    function finalization() internal {
+        require(token.balanceOf(this) >= 2800000 ether);
+        address Bountyhive = 0x38B08071db8Acf1446F87161fb55dE9416DC8A6d;
+        token.transfer(Bountyhive, 2800000 ether);
     }
 }
