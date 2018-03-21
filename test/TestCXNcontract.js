@@ -121,6 +121,11 @@ contract('CxNtoken', (accounts) => {
             console.log("Min value is " + valueToSend);
             let payTransaction = await contract.sendTransaction({ from: web3.eth.coinbase, value: valueToSend });
 
+            let rate = getRate();
+            let expectedTokens = rate * valueToSend;
+
+            assert.equal(expectedTokens, (await contract.balances(web3.eth.coinbase)).toNumber(), "Balance is not correct")
+
             console.log(payTransaction.logs);
         });
     });
