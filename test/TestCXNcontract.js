@@ -76,6 +76,35 @@ contract('CxNtoken', (accounts) => {
             
             assert.equal(cap, (await contract.cap()).toNumber() , "Cap must be set");
 
+            assert.equal(endTime, (await contract.closingTime()).toNumber(), "Closing time must be set")
+
+            assert.equal(goal, (await contract.goal()).toNumber(), "Goal must be set")
+            
+            assert.equal(owner,(await contract.owner()),"Owner Must Be Set")
+
+            //set wei raised
+            let weiRaised = await contract.weiRaised();
+            console.log("Wei Raised is: " + weiRaised)
+            let goalReached = (await contract.weiRaised() > goal)
+            console.log("Goal Reached is: " + goalReached)   
+            assert.equal(goalReached,(await contract.goalReached()),"Goal Reached Should be false")
+
+            //Check cap reached
+            let capReached = (await contract.weiRaised() >= cap)   
+            console.log("Cap Reached is: " + capReached)
+            assert.equal(capReached,(await contract.capReached()),"Cap Reached Should be false")
+
+            //Check wallet
+            assert.equal(owner,(await contract.wallet()),"Wallet Must Be Set")
+
+            //Check Balance
+            //  for(account in web3.eth.accounts){
+            assert.equal(0,(await contract.balances(web3.eth.coinbase)),"Amount Must be zero")
+            // }   
+
+
+
+
         });
 
         it("Check payment", async function () {
