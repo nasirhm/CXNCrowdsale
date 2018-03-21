@@ -4,13 +4,33 @@ var CxNtoken = artifacts.require("./CxNtoken.sol");
 
 contract('CxNtoken', (accounts) => {
 
+    let privSale1start = 1521594000;
+
+    //  10 Apr 2018  11:59:00 PM CST
+    let privSale1end = 1523426400;
+
+    // 16 Apr 2018  07:00:00 PM CST
+    let privSale2start = 1523926800;
+
+    // 07 May 2018  11:59:00 PM CST
+    let privSale2end = 1525759200;
+
+    // 11 May 2018 07:00:00 PM CST
+    let saleStart = 1526086800;
+
+    // 18 Jun 2018 11:59:00 PM CST
+    let saleEnd = 1526709600;
+
     describe("Setup", () => {
+        let timeNow = (Date.now() / 1000).toFixed(0);
+        console.log("Time now is : " + timeNow);
+
         let getRate = (privSale1start, privSale1end, privSale2start, privSale2end, saleStart, saleEnd)=> {
-            if (Date.now() > privSale1start && Date.now() < privSale1end) 
+            if (timeNow > privSale1start && timeNow < privSale1end) 
                   return 14375; // Stage I
-              else if (Date.now() > privSale2start && Date.now() < privSale2end) 
+              else if (timeNow > privSale2start && timeNow < privSale2end) 
                   return 13750; // Stage II
-              else if (Date.now() > saleStart && Date.now() < saleEnd) 
+              else if (timeNow > saleStart && timeNow < saleEnd) 
                   return 12500; // Public Sale
               return 0;
           };
@@ -51,13 +71,17 @@ contract('CxNtoken', (accounts) => {
             
             let expectedRate = getRate()
             let actualRate = await contract.getRate();
-
+            
             assert.equal(expectedRate, actualRate.toNumber() , "Should return 14375, the private sale rate");
+            
+            assert.equal(cap, (await contract.cap()).toNumber() , "Cap must be set");
 
-            //let payTransaction = await contract.sendTransaction({ value: web3.toWei(5, "ether") });
         });
 
-        
+        it("Check payment", async function () {
+            //let payTransaction = await contract.sendTransaction({ value: web3.toWei(5, "ether") });
+
+        });
     });
 
 });
