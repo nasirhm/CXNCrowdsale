@@ -131,9 +131,9 @@ contract('CxNtoken', (accounts) => {
 
             let expectedTokens = rate * valueToSend;
 
-            assert.equal(expectedTokens, (await contract.balances(web3.eth.coinbase)).toNumber(), "Balance is not correct")
+            assert.equal(expectedTokens, (await contract.balances(web3.eth.coinbase)).toNumber(), "Balance is not correct");
 
-            console.log(payTransaction.logs);
+            //console.log(payTransaction.logs);
         });
 
 

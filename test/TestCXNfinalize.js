@@ -26,7 +26,7 @@ contract('CxNtoken', (accounts) => {
         var token = null;
         var contract = null;
         
-        let wallet = accounts[2];
+        let wallet = web3.eth.coinbase;
 
         it("Creates a valid token", function () {
             
@@ -60,9 +60,18 @@ contract('CxNtoken', (accounts) => {
         it("Check Finalize", async function(){
             assert.equal(true,(await contract.hasClosed()),"Should be true")
             console.log("contract has closed: " + (await contract.hasClosed()))
-            let balance = await contract.balances.call(wallet);
-            console.log("Balance " + balance);
+
+            var tokenMain = await CxNtoken.at(token.address);
+            //console.log(tokenMain);
+            
+            let balance = await tokenMain.balanceOf(wallet);
+            console.log("Balance is " + balance.toNumber());
+
+            await tokenMain.transfer(contract.address, balance);
+
             let finalize = await contract.finalize();
+
+            console.log(finalize.logs[0].args);
         })
 
     });

@@ -197,7 +197,7 @@ contract CxNtoken is StandardToken {
 
 
     function CxNtoken(address _wallet) public {
-        require(address(_wallet)!=0);
+        require(_wallet != address(0));
         totalSupply_ = INITIAL_SUPPLY;
         balances[_wallet] = INITIAL_SUPPLY;
         emit Transfer(0x0,_wallet, INITIAL_SUPPLY);
