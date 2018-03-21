@@ -22,17 +22,23 @@ contract('CxNtoken', (accounts) => {
     let saleEnd = 1526709600;
 
     describe("Setup", () => {
-        let timeNow = (Date.now() / 1000).toFixed(0);
-        console.log("Time now is : " + timeNow);
-
-        let getRate = (privSale1start, privSale1end, privSale2start, privSale2end, saleStart, saleEnd)=> {
-            if (timeNow > privSale1start && timeNow < privSale1end) 
-                  return 14375; // Stage I
-              else if (timeNow > privSale2start && timeNow < privSale2end) 
-                  return 13750; // Stage II
-              else if (timeNow > saleStart && timeNow < saleEnd) 
-                  return 12500; // Public Sale
-              return 0;
+        let getRate = () => {
+            let timeNow = (Date.now() / 1000).toFixed(0);
+            console.log("Time now is : " + timeNow);
+            
+            if (timeNow > privSale1start && timeNow < privSale1end) {
+                console.log("Stage I");
+                return 14375; // Stage I
+            } else if (timeNow > privSale2start && timeNow < privSale2end) {
+                console.log("Stage II");
+                return 13750; // Stage II
+            } else if (timeNow > saleStart && timeNow < saleEnd) {
+                console.log("Stage III");
+                return 12500; // Public Sale
+            } else {
+                console.log("ENDED");
+                return 0;
+            }
           };
 
         let hasClosed = () => {
@@ -76,6 +82,7 @@ contract('CxNtoken', (accounts) => {
             assert.equal(owner, setOwner , "Owner must be set");
             
             let expectedRate = getRate()
+            console.log(expectedRate);
             let actualRate = await contract.getRate();
             
             assert.equal(expectedRate, actualRate.toNumber() , "Should return 14375, the private sale rate");
@@ -122,6 +129,7 @@ contract('CxNtoken', (accounts) => {
             let payTransaction = await contract.sendTransaction({ from: web3.eth.coinbase, value: valueToSend });
 
             let rate = getRate();
+            console.log("Rate is " + rate);
             let expectedTokens = rate * valueToSend;
 
             assert.equal(expectedTokens, (await contract.balances(web3.eth.coinbase)).toNumber(), "Balance is not correct")
