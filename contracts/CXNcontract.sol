@@ -47,7 +47,7 @@ contract CxNcontract is CappedCrowdsale, RefundableCrowdsale, PostDeliveryCrowds
     }
 
     function _preValidatePurchase(address _beneficiary, uint256 _weiAmount) internal {
-        assert(checkValue(_weiAmount));
+        require(checkValue(_weiAmount));
         super._preValidatePurchase(_beneficiary, _weiAmount);
     }
 
