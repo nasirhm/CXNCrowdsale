@@ -25,6 +25,9 @@ contract('CxNtoken', (accounts) => {
 
         var token = null;
         var contract = null;
+        
+        let wallet = accounts[2];
+
         it("Creates a valid token", function () {
             
             return CxNtoken.deployed().then(async function(instance) {
@@ -32,6 +35,9 @@ contract('CxNtoken', (accounts) => {
                 let totalSupply = web3.toWei(500000000, "ether" );
                 let actualTotalSupply = await instance.totalSupply();
                 assert.equal(totalSupply, actualTotalSupply.toNumber() , "Total supply incorrect");
+
+                let walletBalance = await instance.balanceOf(wallet);
+                assert.equal(walletBalance, actualTotalSupply.toNumber() , "Total supply in incorrect account");
             });
         });
         
@@ -39,13 +45,12 @@ contract('CxNtoken', (accounts) => {
 
             let cap = web3.toWei(20000, "ether" );
             let goal = web3.toWei(10000, "ether" );
-            let owner = web3.eth.coinbase;
 
             console.log('Token Address is : ' + token.address);          
 
             saleEnd = privSale1start + 1;
             contract = await CxNcontract.new(privSale1start, saleEnd, 
-                owner, cap, 
+                wallet, cap, 
                 token.address, goal, accounts[1]);
             
             console.log('Contract Address is : ' + contract.address);
@@ -55,7 +60,7 @@ contract('CxNtoken', (accounts) => {
         it("Check Finalize", async function(){
             assert.equal(true,(await contract.hasClosed()),"Should be true")
             console.log("contract has closed: " + (await contract.hasClosed()))
-            let balance = await contract.balances.call(web3.eth.coinbase);
+            let balance = await contract.balances.call(wallet);
             console.log("Balance " + balance);
             let finalize = await contract.finalize();
         })
