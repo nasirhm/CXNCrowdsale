@@ -10,10 +10,10 @@ import "./token/ERC20/StandardToken.sol";
 contract CXNcontract is CappedCrowdsale, RefundableCrowdsale, PostDeliveryCrowdsale {
     
     // Only for testNet:
-    uint privSale1start = now;
+    //uint privSale1start = now;
 
     //    //  20 Mar 2018  07:00:00 PM CST
-    //uint privSale1start = 1521594000;
+    uint privSale1start = 1521594000;
 
     //  10 Apr 2018  11:59:00 PM CST
     uint privSale1end = 1523426400;
