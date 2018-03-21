@@ -28,7 +28,7 @@ contract TimedCrowdsale is Crowdsale {
    * @param _closingTime Crowdsale closing time
    */
   function TimedCrowdsale(uint256 _openingTime, uint256 _closingTime) public {
-    require(_openingTime >= now);
+    //require(_openingTime >= now);
     require(_closingTime >= _openingTime);
 
     openingTime = _openingTime;

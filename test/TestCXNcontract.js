@@ -35,7 +35,13 @@ contract('CxNtoken', (accounts) => {
               return 0;
           };
 
+        let hasClosed = () => {
+            let timeNow = (Date.now() / 1000).toFixed(0);
+            return !(timeNow >= 1521594000 && timeNow <= 1526709600);
+        };
+
         var token = null;
+        var contract = null;
         it("Creates a valid token", function () {
             
             return CxNtoken.deployed().then(async function(instance) {
@@ -58,9 +64,9 @@ contract('CxNtoken', (accounts) => {
             let goal = web3.toWei(10000, "ether" );
             let owner = web3.eth.coinbase;
 
-            console.log('Token Address is : ' + token.address);
+            console.log('Token Address is : ' + token.address);          
 
-            let contract = await CxNcontract.new(startTime, endTime, 
+            contract = await CxNcontract.new(privSale1start, saleEnd, 
                 owner, cap, 
                 token.address, goal);
             
@@ -72,11 +78,13 @@ contract('CxNtoken', (accounts) => {
             let expectedRate = getRate()
             let actualRate = await contract.getRate();
             
-            assert.equal(expectedRate, actualRate.toNumber() , "Should return 14375, the private sale rate");
+            //assert.equal(expectedRate, actualRate.toNumber() , "Should return 14375, the private sale rate");
             
             assert.equal(cap, (await contract.cap()).toNumber() , "Cap must be set");
 
-            assert.equal(endTime, (await contract.closingTime()).toNumber(), "Closing time must be set")
+            //assert.equal(privSale1start, (await contract.startTime).toNumber(), "Start time must be set")
+                
+            assert.equal(saleEnd, (await contract.closingTime()).toNumber(), "Closing time must be set")
 
             assert.equal(goal, (await contract.goal()).toNumber(), "Goal must be set")
             
@@ -102,13 +110,16 @@ contract('CxNtoken', (accounts) => {
             assert.equal(0,(await contract.balances(web3.eth.coinbase)),"Amount Must be zero")
             // }   
 
+            console.log(hasClosed());
+            assert.equal(hasClosed(), (await contract.hasClosed()) , "Must reflect if open or closed");
 
-
-
+            
         });
 
         it("Check payment", async function () {
-            //let payTransaction = await contract.sendTransaction({ value: web3.toWei(5, "ether") });
+            let valueToSend = web3.toWei(5, "ether");
+            console.log(valueToSend);
+            //let payTransaction = await contract.sendTransaction({ value: valueToSend });
 
         });
     });
