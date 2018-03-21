@@ -22,6 +22,7 @@ contract('CxNtoken', (accounts) => {
     let saleEnd = 1526709600;
 
     describe("Setup", () => {
+        
         let getRate = () => {
             let timeNow = (Date.now() / 1000).toFixed(0);
             console.log("Time now is : " + timeNow);
