@@ -4,7 +4,7 @@ import "./crowdsale/distribution/FinalizableCrowdsale.sol";
 import "./crowdsale/validation/CappedCrowdsale.sol";
 import "./crowdsale/distribution/RefundableCrowdsale.sol";
 import "./crowdsale/distribution/PostDeliveryCrowdsale.sol";
-import "./token/ERC20/StandardToken.sol";
+import "./token/ERC20/ERC20.sol";
 
 contract CXNcontract is CappedCrowdsale, RefundableCrowdsale, PostDeliveryCrowdsale {
     
