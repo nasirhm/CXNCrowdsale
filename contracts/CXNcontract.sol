@@ -3,7 +3,6 @@ pragma solidity ^0.4.21;
 import "./crowdsale/distribution/FinalizableCrowdsale.sol";
 import "./crowdsale/validation/CappedCrowdsale.sol";
 import "./crowdsale/distribution/RefundableCrowdsale.sol";
-import "./crowdsale/emission/MintedCrowdsale.sol";
 import "./crowdsale/distribution/PostDeliveryCrowdsale.sol";
 import "./token/ERC20/StandardToken.sol";
 
@@ -59,7 +58,6 @@ contract CXNcontract is CappedCrowdsale, RefundableCrowdsale, PostDeliveryCrowds
     }
 
     function getRate() public view returns (uint256) {
-        
         if (now > privSale1start && now < privSale1end) 
             return 14375; // Stage I
         else if (now > privSale2start && now < privSale2end) 

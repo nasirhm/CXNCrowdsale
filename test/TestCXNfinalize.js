@@ -22,25 +22,6 @@ contract('CxNtoken', (accounts) => {
     let saleEnd = 1526709600;
 
     describe("Setup", () => {
-        let timeNow = (Date.now() / 1000).toFixed(0);
-        console.log("Time now is : " + timeNow);
-
-        let getRate = ()=> {
-            if (timeNow > privSale1start && timeNow < privSale1end) 
-                  return 14375; // Stage I
-              else if (timeNow > privSale2start && timeNow < privSale2end) 
-                  return 13750; // Stage II
-              else if (timeNow > saleStart && timeNow < saleEnd) 
-                  return 12500; // Public Sale
-              return 0;
-          };
-
-          console.log("getrate " + getRate())
-
-        let hasClosed = () => {
-            let timeNow = (Date.now() / 1000).toFixed(0);
-            return !(timeNow >= 1521594000 && timeNow <= 1526709600);
-        };
 
         var token = null;
         var contract = null;
@@ -71,15 +52,12 @@ contract('CxNtoken', (accounts) => {
             
         });
 
-
         it("Check Finalize", async function(){
             assert.equal(true,(await contract.hasClosed()),"Should be true")
             console.log("contract has closed: " + (await contract.hasClosed()))
-            let finalize = await contract.finalize({gas:500000});
-            console.log(finalize);
+            let finalize = await contract.finalize();
         })
 
-        
 
 
     });

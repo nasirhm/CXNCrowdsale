@@ -134,6 +134,8 @@ contract('CxNtoken', (accounts) => {
 
             console.log(payTransaction.logs);
         });
+
+
     });
 
 });
