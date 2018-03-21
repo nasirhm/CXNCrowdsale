@@ -11,6 +11,12 @@ contract CXNcontract is CappedCrowdsale, RefundableCrowdsale, PostDeliveryCrowds
     // Only for testNet:
     //uint privSale1start = now;
 
+    // Main wallet
+    address wallet;
+
+    // Bounty hive
+    address partnerAddress;
+
     //    //  20 Mar 2018  07:00:00 PM CST
     uint privSale1start = 1521594000;
 
@@ -29,7 +35,7 @@ contract CXNcontract is CappedCrowdsale, RefundableCrowdsale, PostDeliveryCrowds
     // 18 Jun 2018 11:59:00 PM CST
     uint saleEnd = 1526709600;
 
-    function CXNcontract(uint256 _openingTime, uint256 _closingTime, address _wallet, uint256 _cap, ERC20 _token, uint256 _goal) public 
+    function CXNcontract(uint256 _openingTime, uint256 _closingTime, address _wallet, uint256 _cap, ERC20 _token, uint256 _goal, address _partnerAddress) public 
         Crowdsale(_wallet, _token)
         CappedCrowdsale(_cap)
         TimedCrowdsale(_openingTime, _closingTime)
@@ -37,6 +43,8 @@ contract CXNcontract is CappedCrowdsale, RefundableCrowdsale, PostDeliveryCrowds
     {
         //As goal needs to be met for a successful crowdsale
         //the value needs to less or equal than a cap which is limit for accepted funds
+        wallet = _wallet;
+        partnerAddress = _partnerAddress;
         require(_goal <= _cap);
     }
 
@@ -68,8 +76,7 @@ contract CXNcontract is CappedCrowdsale, RefundableCrowdsale, PostDeliveryCrowds
     }
 
     function finalization() internal {
-        require(token.balanceOf(this) >= 2800000 ether);
-        address Bountyhive = 0x38B08071db8Acf1446F87161fb55dE9416DC8A6d;
-        token.transfer(Bountyhive, 2800000 ether);
+        require(token.balanceOf(wallet) >= 2800000 ether);
+        token.transfer(partnerAddress, 2800000 ether);
     }
 }

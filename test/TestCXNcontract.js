@@ -22,7 +22,7 @@ contract('CxNtoken', (accounts) => {
     let saleEnd = 1526709600;
 
     describe("Setup", () => {
-        
+
         let getRate = () => {
             let timeNow = (Date.now() / 1000).toFixed(0);
             console.log("Time now is : " + timeNow);
@@ -75,7 +75,7 @@ contract('CxNtoken', (accounts) => {
 
             contract = await CxNcontract.new(privSale1start, saleEnd, 
                 owner, cap, 
-                token.address, goal);
+                token.address, goal, accounts[1]);
             
             console.log('Contract Address is : ' + contract.address);
             

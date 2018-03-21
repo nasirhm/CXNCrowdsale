@@ -46,7 +46,7 @@ contract('CxNtoken', (accounts) => {
             saleEnd = privSale1start + 1;
             contract = await CxNcontract.new(privSale1start, saleEnd, 
                 owner, cap, 
-                token.address, goal);
+                token.address, goal, accounts[1]);
             
             console.log('Contract Address is : ' + contract.address);
             
@@ -57,8 +57,6 @@ contract('CxNtoken', (accounts) => {
             console.log("contract has closed: " + (await contract.hasClosed()))
             let finalize = await contract.finalize();
         })
-
-
 
     });
 
