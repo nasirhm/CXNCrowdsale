@@ -132,6 +132,9 @@ contract('CxNtoken', (accounts) => {
 
             assert.equal(expectedTokens, (await contract.balances(web3.eth.coinbase)).toNumber(), "Balance is not correct")
 
+            let weiRaised = await contract.weiRaised();
+            assert.equal(valueToSend, weiRaised, 'Raised amount incorrect');
+
             console.log(payTransaction.logs);
         });
     });
