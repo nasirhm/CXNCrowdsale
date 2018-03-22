@@ -120,7 +120,8 @@ contract Crowdsale {
    * @param _tokenAmount Number of tokens to be emitted
    */
   function _deliverTokens(address _beneficiary, uint256 _tokenAmount) internal {
-    token.transfer(_beneficiary, _tokenAmount);
+    token.transferFrom(wallet, _beneficiary, _tokenAmount);
+    //token.transfer(_beneficiary, _tokenAmount);
   }
 
   /**
