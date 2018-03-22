@@ -20,7 +20,7 @@ contract RefundableCrowdsale is FinalizableCrowdsale {
 
   // refund vault used to hold funds while crowdsale is running
   RefundVault public vault;
-
+ 
   /**
    * @dev Constructor, creates RefundVault. 
    * @param _goal Funding goal
@@ -56,7 +56,7 @@ contract RefundableCrowdsale is FinalizableCrowdsale {
     if (goalReached()) {
       vault.close();
     } else {
-      vault.enableRefunds();
+      vault.transferOwnership(owner);
     }
 
     super.finalization();
