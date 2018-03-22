@@ -77,10 +77,8 @@ contract CxNcontract is CappedCrowdsale, RefundableCrowdsale, PostDeliveryCrowds
         uint256 tokensForPartners = 2800000 ether;
         uint256 tokensNeededToClose = tokensForPartners.add(tokensDistributed);
 
-        require(token.balanceOf(this) >= tokensNeededToClose);
+        require(token.balanceOf(wallet) >= tokensNeededToClose);
 
-        token.transfer(partnerAddress, tokensForPartners);
-
-        token.transfer(wallet, token.balanceOf(this).sub(tokensDistributed));
+        token.transferFrom(wallet, partnerAddress, tokensForPartners);
     }
 }

@@ -67,7 +67,7 @@ contract('CxNtoken', (accounts) => {
             let balance = await tokenMain.balanceOf(wallet);
             console.log("Balance is " + balance.toNumber());
 
-            await tokenMain.transfer(contract.address, balance);
+            let approved = await tokenMain.approve(contract.address, balance);
 
             let finalize = await contract.finalize();
 
