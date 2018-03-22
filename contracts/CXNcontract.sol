@@ -55,8 +55,10 @@ contract CxNcontract is CappedCrowdsale, RefundableCrowdsale, PostDeliveryCrowds
         return _weiAmount.mul(getRate());
     }
 
-    function checkValue(uint256 amount) internal view returns (bool){
-        if (now > privSale1start && now < privSale2end) 
+    function checkValue(uint256 amount) internal view returns (bool) {
+        if (now > privSale1start && now < privSale1end) 
+            return (amount >= 5 ether);
+        else if (now > privSale2start && now < privSale2end) 
             return (amount >= 5 ether);
         else if (now > saleStart && now < saleEnd) 
             return (amount >= 0.1 ether);
