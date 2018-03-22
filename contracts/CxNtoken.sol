@@ -196,7 +196,7 @@ contract CxNtoken is StandardToken {
     uint256 public constant INITIAL_SUPPLY = 500000000 * (10 ** uint256(decimals));
 
 
-    function CxNtoken(address _wallet) public {
+    function CxNtoken(address _wallet) public payable {
         require(_wallet != address(0));
         totalSupply_ = INITIAL_SUPPLY;
         balances[_wallet] = INITIAL_SUPPLY;
