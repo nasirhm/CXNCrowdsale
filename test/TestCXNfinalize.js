@@ -1,8 +1,14 @@
 var CxNcontract = artifacts.require("./CxNcontract.sol");
 var CxNtoken = artifacts.require("./CxNtoken.sol");
+var RefundVault = artifacts.require("./crowdsale/distribution/utils/RefundVault.sol");
+
 //const helpers = require('./helpers');
 
 contract('CxNtoken', (accounts) => {
+
+    var sleep = function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    };
 
     let privSale1start = 1521594000;
 
@@ -40,8 +46,8 @@ contract('CxNtoken', (accounts) => {
                 assert.equal(walletBalance, actualTotalSupply.toNumber() , "Total supply in incorrect account");
             });
         });
-        
-        it("Sets valid attributes", async function () {
+
+        it("Sets valid attributes for finalize", async function () {
 
             let cap = web3.toWei(20000, "ether" );
             let goal = web3.toWei(10000, "ether" );
@@ -55,6 +61,9 @@ contract('CxNtoken', (accounts) => {
             
             console.log('Contract Address is : ' + contract.address);
             
+            //await contract.sendTransaction({value: web3.toWei(5, "ether" ) });
+            //await sleep(5000);
+
         });
 
         it("Check Finalize", async function(){
@@ -74,6 +83,18 @@ contract('CxNtoken', (accounts) => {
             console.log(finalize.logs[0].args);
         })
 
+        it("Check Vault", async function(){
+
+            var vaultAddr = await contract.vault();
+            
+            console.log("Vault is " + vaultAddr);
+
+            var vault = await RefundVault.at(vaultAddr);
+
+   
+
+
+        });
     });
 
 });

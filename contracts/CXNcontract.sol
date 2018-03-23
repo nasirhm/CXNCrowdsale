@@ -40,8 +40,6 @@ contract CxNcontract is CappedCrowdsale, RefundableCrowdsale, PostDeliveryCrowds
     {
         //As goal needs to be met for a successful crowdsale
         //the value needs to less or equal than a cap which is limit for accepted funds
-        //wallet = _wallet;
-        //token = ERC20Basic(_token);
         partnerAddress = _partnerAddress;
         require(_goal <= _cap);
     }
